@@ -121,12 +121,12 @@ public class TenantDetails extends javax.swing.JFrame {
         update = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        searchNumber = new javax.swing.JTextField();
-        delete = new javax.swing.JButton();
         searchName = new javax.swing.JTextField();
+        delete = new javax.swing.JButton();
+        searchRoom = new javax.swing.JTextField();
         search = new javax.swing.JToggleButton();
         jLabel9 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        refresh = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tenants_table = new javax.swing.JTable();
         name = new javax.swing.JTextField();
@@ -188,9 +188,9 @@ public class TenantDetails extends javax.swing.JFrame {
 
         jLabel7.setText("Date Rented");
 
-        searchNumber.addActionListener(new java.awt.event.ActionListener() {
+        searchName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchNumberActionPerformed(evt);
+                searchNameActionPerformed(evt);
             }
         });
 
@@ -202,9 +202,9 @@ public class TenantDetails extends javax.swing.JFrame {
             }
         });
 
-        searchName.addActionListener(new java.awt.event.ActionListener() {
+        searchRoom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchNameActionPerformed(evt);
+                searchRoomActionPerformed(evt);
             }
         });
 
@@ -218,11 +218,11 @@ public class TenantDetails extends javax.swing.JFrame {
 
         jLabel9.setText("Advance");
 
-        jButton1.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
-        jButton1.setText("Refresh Patients");
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+        refresh.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
+        refresh.setText("Refresh Patients");
+        refresh.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton1MouseClicked(evt);
+                refreshMouseClicked(evt);
             }
         });
 
@@ -320,56 +320,66 @@ public class TenantDetails extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel9)
-                                    .addComponent(jLabel7)
-                                    .addComponent(jLabel6)
                                     .addComponent(jLabel13)
-                                    .addComponent(jLabel8)
-                                    .addComponent(jLabel14)
-                                    .addComponent(jLabel15))
+                                    .addComponent(jLabel14))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(notes, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                .addComponent(name, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                                                .addComponent(address)
-                                                .addComponent(room, javax.swing.GroupLayout.Alignment.TRAILING))
-                                            .addComponent(rent, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(rented, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addComponent(vacated, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(currRented, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(agreement, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(dues, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(advance, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(agreement, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(currRented, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(jLabel15)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(dues, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(add)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(update)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(delete)))
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel2)
+                                            .addComponent(jLabel3)
+                                            .addComponent(jLabel4)
+                                            .addComponent(jLabel5)
+                                            .addComponent(jLabel9)
+                                            .addComponent(jLabel7)
+                                            .addComponent(jLabel6))
+                                        .addGap(37, 37, 37)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                    .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(address, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(room, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addComponent(rent, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(rented, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(vacated, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(advance, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(add)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(update)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(delete))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel8)
+                                        .addGap(88, 88, 88)
+                                        .addComponent(notes, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(47, 47, 47)
                                 .addComponent(jLabel10)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(searchName, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(searchRoom, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(24, 24, 24)
                                 .addComponent(jLabel11)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(searchNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(searchName, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(search)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 590, Short.MAX_VALUE)
-                                .addComponent(jButton1))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 578, Short.MAX_VALUE)
+                                .addComponent(refresh))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addComponent(jScrollPane1)))))
@@ -416,35 +426,34 @@ public class TenantDetails extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
                             .addComponent(vacated, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(27, 27, 27)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel14)
-                                    .addComponent(agreement, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(7, 7, 7)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel15)
-                                    .addComponent(dues, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(notes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel8)))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel13)
-                                .addComponent(currRented, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel13)
+                            .addComponent(currRented, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(9, 9, 9)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel14)
+                            .addComponent(agreement, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(9, 9, 9)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel15)
+                            .addComponent(dues, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel8)
+                            .addComponent(notes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(jLabel11)
-                    .addComponent(searchNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(searchName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchRoom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(search)
                     .addComponent(add)
                     .addComponent(update)
                     .addComponent(delete)
-                    .addComponent(jButton1))
+                    .addComponent(refresh))
                 .addGap(58, 58, 58))
         );
 
@@ -522,8 +531,8 @@ public class TenantDetails extends javax.swing.JFrame {
                 dues.setText("");
                 rented.setText("");
                 vacated.setText("");
-                currRented.setValue("True");
-                agreement.setValue("True");
+                currRented.setValue("TRUE");
+                agreement.setValue("TRUE");
                 dues.setText("");
                 notes.setText("");
             }catch(Exception ex){
@@ -603,8 +612,8 @@ public class TenantDetails extends javax.swing.JFrame {
                 dues.setText("");
                 rented.setText("");
                 vacated.setText("");
-                currRented.setValue("True");
-                agreement.setValue("True");
+                currRented.setValue("TRUE");
+                agreement.setValue("TRUE");
                 dues.setText("");
                 notes.setText("");
             }catch(Exception ex){
@@ -615,36 +624,45 @@ public class TenantDetails extends javax.swing.JFrame {
 
     }//GEN-LAST:event_updateMouseClicked
 
-    private void searchNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchNumberActionPerformed
+    private void searchNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchNameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_searchNumberActionPerformed
+    }//GEN-LAST:event_searchNameActionPerformed
 
     private void deleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteMouseClicked
         // TODO add your handling code here:
-        String dateVal = room.getText();
+        String roomVal = room.getText();
         String nameVal = name.getText();
         String addressVal = address.getText();
-        String addressVal = rent.getText();
-        String ageVal = dues.getText();
-        String doctorVal = rented.getText();
-        String ailmentVal = vacated.getText();
-        String feesVal = currRented.getText();
+        String rentVal = rent.getText().replaceAll(",", "");
+        String advanceVal = advance.getText().replaceAll(",", "");
+        String rentedVal = rented.getText();
+        String vacatedVal = vacated.getText();
+        String currRentedVal = currRented.getValue().toString();
+        String agreementVal = agreement.getValue().toString();
+        String duesVal = dues.getText();
+        String notesVal = notes.getText();
 
-        if(dateVal.equals("")){
+       if(roomVal.equals("")){
             JOptionPane.showMessageDialog(null, "Please select a patient from the table to delete");
         } else if(nameVal.equals("")){
             JOptionPane.showMessageDialog(null, "Please select a patient from the table to delete");
         }else if(addressVal.equals("")){
             JOptionPane.showMessageDialog(null, "Please select a patient from the table to delete");
-        }else if(addressVal.equals("")){
+        }else if(rentVal.equals("")){
             JOptionPane.showMessageDialog(null, "Please select a patient from the table to delete");
-        }else if(ageVal.equals("")){
+        }else if(advanceVal.equals("")){
             JOptionPane.showMessageDialog(null, "Please select a patient from the table to delete");
-        }else if(doctorVal.equals("")){
+        }else if(rentedVal.equals("")){
             JOptionPane.showMessageDialog(null, "Please select a patient from the table to delete");
-        }else if(ailmentVal.equals("")){
+        }else if(vacatedVal.equals("")){
             JOptionPane.showMessageDialog(null, "Please select a patient from the table to delete");
-        }else if(feesVal.equals("")){
+        }else if(currRentedVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please select a patient from the table to delete");
+        }else if(agreementVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please select a patient from the table to delete");
+        }else if(duesVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please select a patient from the table to delete");
+        }else if(notesVal.equals("")){
             JOptionPane.showMessageDialog(null, "Please select a patient from the table to delete");
         }else{
 
@@ -654,11 +672,11 @@ public class TenantDetails extends javax.swing.JFrame {
                 int selectedIndex = tenants_table.getSelectedRow();
                 int id = Integer.parseInt(model.getValueAt(selectedIndex, 0).toString());
 
-                PreparedStatement pst = connection.prepareStatement("delete from patients where patient_id=?");
+                PreparedStatement pst = connection.prepareStatement("delete from patients where tenantID=?");
                 pst.setInt(1, id);
 
                 pst.executeUpdate();
-                JOptionPane.showMessageDialog(null, "Patient " + nameVal + " deleted successfully");
+                JOptionPane.showMessageDialog(null, "Tenant " + nameVal + " deleted successfully");
                 showTenants();
 
                 room.setText("");
@@ -668,7 +686,10 @@ public class TenantDetails extends javax.swing.JFrame {
                 dues.setText("");
                 rented.setText("");
                 vacated.setText("");
-                currRented.setText("");
+                currRented.setValue("TRUE");
+                agreement.setValue("TRUE");
+                dues.setText("");
+                notes.setText("");
             }catch(Exception ex){
                 System.out.println("Delete Error: \n" + ex);
                 JOptionPane.showMessageDialog(null, "Update Error: \n" + ex);
@@ -677,20 +698,59 @@ public class TenantDetails extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_deleteMouseClicked
 
-    private void searchNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchNameActionPerformed
+    private void searchRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchRoomActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_searchNameActionPerformed
+    }//GEN-LAST:event_searchRoomActionPerformed
 
     private void searchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchMouseClicked
         // TODO add your handling code here:
         int columnCount;
 
-        if(!searchName.getText().equals("") && !searchNumber.getText().equals("")){
+        if(!searchRoom.getText().equals("") && !searchName.getText().equals("")){
             JOptionPane.showMessageDialog(null, "Please search by either name or mobile number, not both");
-        }else if(!searchName.getText().equals("") && searchNumber.getText().equals("")){
+        }else if(!searchRoom.getText().equals("") && searchName.getText().equals("")){
             try{
 
-                PreparedStatement pst = connection.prepareStatement("select * from patients where name ilike  ?");
+                PreparedStatement pst = connection.prepareStatement("select * from tenants where roomNumber ilike  ?");
+                pst.setString(1, "%" + searchRoom.getText() + "%");
+
+                ResultSet set = pst.executeQuery();
+                ResultSetMetaData meta = set.getMetaData();
+                columnCount = meta.getColumnCount();
+                DefaultTableModel model = (DefaultTableModel)tenants_table.getModel();
+
+                model.setRowCount(0);
+
+                while(set.next()){
+                    Vector v2 = new Vector();
+
+                    for(int i = 0; i <= columnCount; i++){
+                        v2.add((set.getString("tenantID")));
+                    v2.add((set.getString("roomNumber")));
+                    v2.add((set.getString("name")));
+                    v2.add((set.getString("address")));
+                    v2.add(set.getString("rent"));
+                    v2.add(set.getString("advance"));
+                    v2.add((set.getString("dateRented")));
+                    v2.add((set.getString("dateVacated")));
+                    v2.add((set.getString("currentlyRented")));
+                    v2.add((set.getString("agreementValid")));
+                    v2.add(set.getString("dues"));
+                    v2.add((set.getString("notes")));
+                    }
+
+                    model.addRow(v2);
+                }
+            }catch(Exception ex){
+                System.out.println("Search Error: \n" + ex);
+                JOptionPane.showMessageDialog(null, "Search Error: \n" + ex);
+
+            }
+
+        }else if(searchRoom.getText().equals("") && !searchName.getText().equals("")){
+            try{
+
+                PreparedStatement pst = connection.prepareStatement("select * from tenants where name ilike ?");
                 pst.setString(1, "%" + searchName.getText() + "%");
 
                 ResultSet set = pst.executeQuery();
@@ -704,51 +764,18 @@ public class TenantDetails extends javax.swing.JFrame {
                     Vector v2 = new Vector();
 
                     for(int i = 0; i <= columnCount; i++){
-                        v2.add((set.getString("patient_id")));
-                        v2.add((set.getString("date_of_visit")));
-                        v2.add((set.getString("name")));
-                        v2.add((set.getString("number")));
-                        v2.add((set.getString("address")));
-                        v2.add((set.getString("age")));
-                        v2.add((set.getString("doctor_visited")));
-                        v2.add((set.getString("ailment")));
-                        v2.add((set.getString("fees")));
-                    }
-
-                    model.addRow(v2);
-                }
-            }catch(Exception ex){
-                System.out.println("Search Error: \n" + ex);
-                JOptionPane.showMessageDialog(null, "Search Error: \n" + ex);
-
-            }
-
-        }else if(searchName.getText().equals("") && !searchNumber.getText().equals("")){
-            try{
-
-                PreparedStatement pst = connection.prepareStatement("select * from patients where number like ?");
-                pst.setString(1, "%" + searchNumber.getText() + "%");
-
-                ResultSet set = pst.executeQuery();
-                ResultSetMetaData meta = set.getMetaData();
-                columnCount = meta.getColumnCount();
-                DefaultTableModel model = (DefaultTableModel)tenants_table.getModel();
-
-                model.setRowCount(0);
-
-                while(set.next()){
-                    Vector v2 = new Vector();
-
-                    for(int i = 0; i <= columnCount; i++){
-                        v2.add((set.getString("patient_id")));
-                        v2.add((set.getString("date_of_visit")));
-                        v2.add((set.getString("name")));
-                        v2.add((set.getString("number")));
-                        v2.add((set.getString("address")));
-                        v2.add((set.getString("age")));
-                        v2.add((set.getString("doctor_visited")));
-                        v2.add((set.getString("ailment")));
-                        v2.add((set.getString("fees")));
+                       v2.add((set.getString("tenantID")));
+                    v2.add((set.getString("roomNumber")));
+                    v2.add((set.getString("name")));
+                    v2.add((set.getString("address")));
+                    v2.add(set.getString("rent"));
+                    v2.add(set.getString("advance"));
+                    v2.add((set.getString("dateRented")));
+                    v2.add((set.getString("dateVacated")));
+                    v2.add((set.getString("currentlyRented")));
+                    v2.add((set.getString("agreementValid")));
+                    v2.add(set.getString("dues"));
+                    v2.add((set.getString("notes")));
                     }
 
                     model.addRow(v2);
@@ -764,10 +791,10 @@ public class TenantDetails extends javax.swing.JFrame {
 
     }//GEN-LAST:event_searchMouseClicked
 
-    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+    private void refreshMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_refreshMouseClicked
         // TODO add your handling code here:
         showTenants();
-    }//GEN-LAST:event_jButton1MouseClicked
+    }//GEN-LAST:event_refreshMouseClicked
 
     private void tenants_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tenants_tableMouseClicked
         // TODO add your handling code here:
@@ -856,7 +883,6 @@ public class TenantDetails extends javax.swing.JFrame {
     private javax.swing.JSpinner currRented;
     private javax.swing.JButton delete;
     private javax.swing.JFormattedTextField dues;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -874,12 +900,13 @@ public class TenantDetails extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField name;
     private javax.swing.JTextField notes;
+    private javax.swing.JButton refresh;
     private javax.swing.JFormattedTextField rent;
     private javax.swing.JFormattedTextField rented;
     private javax.swing.JFormattedTextField room;
     private javax.swing.JToggleButton search;
     private javax.swing.JTextField searchName;
-    private javax.swing.JTextField searchNumber;
+    private javax.swing.JTextField searchRoom;
     private javax.swing.JTable tenants_table;
     private javax.swing.JButton update;
     private javax.swing.JFormattedTextField vacated;
