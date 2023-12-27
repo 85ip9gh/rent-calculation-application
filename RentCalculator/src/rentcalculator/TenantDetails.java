@@ -75,6 +75,7 @@ public class TenantDetails extends javax.swing.JFrame {
                 Vector v2 = new Vector();           
                 
                 for(int i = 0; i <= columnCount; i++){
+                    v2.add((set.getString("tenantID")));
                     v2.add((set.getString("roomNumber")));
                     v2.add((set.getString("name")));
                     v2.add((set.getString("address")));
@@ -227,20 +228,20 @@ public class TenantDetails extends javax.swing.JFrame {
 
         tenants_table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Room Number", "Name", "Address", "Rent", "Advance", "Date Rented ", "Date Vacated", "Currently Rented ?", "Is Agreement Valid?", "Dues ", "Notes "
+                "Tenant ID", "Room Number", "Name", "Address", "Rent", "Advance", "Date Rented ", "Date Vacated", "Currently Rented ?", "Is Agreement Valid?", "Dues ", "Notes "
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -298,10 +299,10 @@ public class TenantDetails extends javax.swing.JFrame {
             }
         });
 
-        currRented.setModel(new javax.swing.SpinnerListModel(new String[] {"True", "False"}));
+        currRented.setModel(new javax.swing.SpinnerListModel(new String[] {"TRUE", "FALSE"}));
         currRented.setNextFocusableComponent(currRented);
 
-        agreement.setModel(new javax.swing.SpinnerListModel(new String[] {"True", "False"}));
+        agreement.setModel(new javax.swing.SpinnerListModel(new String[] {"TRUE", "FALSE"}));
 
         room.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
         room.addActionListener(new java.awt.event.ActionListener() {
@@ -576,7 +577,7 @@ public class TenantDetails extends javax.swing.JFrame {
                 int selectedIndex = tenants_table.getSelectedRow();
                 int id = Integer.parseInt(model.getValueAt(selectedIndex, 0).toString());
 
-                PreparedStatement pst = connection.prepareStatement("update tenants set roomNumber =?, name =?, address =?, rent =?, advance =?, dateRented =?, dateVacated =?, currentlyRented =?, agreementValid =?, dues =?, notes =? where roomNumber=?");
+                PreparedStatement pst = connection.prepareStatement("update tenants set roomNumber =?, name =?, address =?, rent =?, advance =?, dateRented =?, dateVacated =?, currentlyRented =?, agreementValid =?, dues =?, notes =? where tenantID=?");
 
                 pst.setString(1, roomVal);
                 pst.setString(2, nameVal);
@@ -774,17 +775,17 @@ public class TenantDetails extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel)tenants_table.getModel();
         int selectedIndex = tenants_table.getSelectedRow();
 
-        room.setText(model.getValueAt(selectedIndex, 0).toString());
-        name.setText(model.getValueAt(selectedIndex, 1).toString());
-        address.setText(model.getValueAt(selectedIndex, 2).toString());
-        rent.setText(model.getValueAt(selectedIndex, 3).toString());
-        advance.setText(model.getValueAt(selectedIndex, 4).toString());
-        rented.setText(model.getValueAt(selectedIndex, 5).toString());
-        vacated.setText(model.getValueAt(selectedIndex, 6).toString());
-        currRented.setToolTipText(model.getValueAt(selectedIndex, 7).toString());
-        agreement.setToolTipText(model.getValueAt(selectedIndex, 8).toString());
-        dues.setText(model.getValueAt(selectedIndex, 9).toString());
-        notes.setText(model.getValueAt(selectedIndex, 10).toString());
+        room.setText(model.getValueAt(selectedIndex, 1).toString());
+        name.setText(model.getValueAt(selectedIndex, 2).toString());
+        address.setText(model.getValueAt(selectedIndex, 3).toString());
+        rent.setText(model.getValueAt(selectedIndex, 4).toString());
+        advance.setText(model.getValueAt(selectedIndex, 5).toString());
+        rented.setText(model.getValueAt(selectedIndex, 6).toString());
+        vacated.setText(model.getValueAt(selectedIndex, 7).toString());
+        currRented.setValue(model.getValueAt(selectedIndex, 8));
+        agreement.setValue(model.getValueAt(selectedIndex, 9));
+        dues.setText(model.getValueAt(selectedIndex, 10).toString());
+        notes.setText(model.getValueAt(selectedIndex, 11).toString());
     }//GEN-LAST:event_tenants_tableMouseClicked
 
     private void nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameActionPerformed
