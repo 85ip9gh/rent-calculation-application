@@ -12,7 +12,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.util.Vector;
+import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -30,6 +32,16 @@ public class TenantDetails extends javax.swing.JFrame {
         initComponents();
         centerFrameOnScreen();
         showTenants();
+        
+        rented.setText("YYYY-MM-DD");
+        vacated.setText("YYYY-MM-DD");
+        
+        JComponent editor = currRented.getEditor();
+        JComponent editorAgreement = agreement.getEditor();
+        if (editor instanceof JSpinner.DefaultEditor) {
+            ((JSpinner.DefaultEditor) editor).getTextField().setEditable(false);
+            ((JSpinner.DefaultEditor) editorAgreement).getTextField().setEditable(false);
+        }
     }
     
     private void centerFrameOnScreen() {
@@ -43,7 +55,6 @@ public class TenantDetails extends javax.swing.JFrame {
     }
     
     private void showTenants(){
-        
         int columnCount;
         
         try {
@@ -52,8 +63,6 @@ public class TenantDetails extends javax.swing.JFrame {
             ResultSetMetaData meta = set.getMetaData();
             columnCount = meta.getColumnCount();
             DefaultTableModel model = (DefaultTableModel)tenants_table.getModel();
-           
-            room.setText("yyyy-mm-dd"); 
             
             model.setRowCount(0);
             
@@ -97,17 +106,11 @@ public class TenantDetails extends javax.swing.JFrame {
 
         back = new javax.swing.JToggleButton();
         jLabel1 = new javax.swing.JLabel();
-        rent = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        advance = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        vacated = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        currRented = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         add = new javax.swing.JButton();
-        rented = new javax.swing.JTextField();
-        room = new javax.swing.JFormattedTextField();
         jLabel10 = new javax.swing.JLabel();
         update = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
@@ -124,12 +127,18 @@ public class TenantDetails extends javax.swing.JFrame {
         address = new javax.swing.JTextField();
         dues = new javax.swing.JTextField();
         notes = new javax.swing.JTextField();
-        agreement = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
+        rent = new javax.swing.JFormattedTextField();
+        advance = new javax.swing.JFormattedTextField();
+        rented = new javax.swing.JFormattedTextField();
+        vacated = new javax.swing.JFormattedTextField();
+        currRented = new javax.swing.JSpinner();
+        agreement = new javax.swing.JSpinner();
+        room = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -143,23 +152,11 @@ public class TenantDetails extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Noto Sans", 1, 18)); // NOI18N
         jLabel1.setText("TENANT INFORMATION SYSTEM");
 
-        rent.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rentActionPerformed(evt);
-            }
-        });
-
         jLabel2.setText("Room Number:");
 
         jLabel3.setText("Tenant Name:");
 
         jLabel4.setText("Address:");
-
-        currRented.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                currRentedActionPerformed(evt);
-            }
-        });
 
         jLabel5.setText("Rent");
 
@@ -168,19 +165,6 @@ public class TenantDetails extends javax.swing.JFrame {
         add.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addActionPerformed(evt);
-            }
-        });
-
-        rented.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rentedActionPerformed(evt);
-            }
-        });
-
-        room.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("yyyy-MM-dd"))));
-        room.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                roomActionPerformed(evt);
             }
         });
 
@@ -281,12 +265,6 @@ public class TenantDetails extends javax.swing.JFrame {
             }
         });
 
-        agreement.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                agreementActionPerformed(evt);
-            }
-        });
-
         jLabel8.setText("Notes:");
 
         jLabel6.setText("Date Vacated:");
@@ -296,6 +274,38 @@ public class TenantDetails extends javax.swing.JFrame {
         jLabel14.setText("Is Agreement Valid?");
 
         jLabel15.setText("Dues");
+
+        rent.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,#0.##"))));
+        rent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rentActionPerformed(evt);
+            }
+        });
+
+        advance.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,#0.##"))));
+        advance.setText("YYYY-MM-DD");
+
+        rented.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("yyyy-MM-dd"))));
+        rented.setText("YYYY-MM-DD");
+
+        vacated.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        vacated.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                vacatedActionPerformed(evt);
+            }
+        });
+
+        currRented.setModel(new javax.swing.SpinnerListModel(new String[] {"True", "False"}));
+        currRented.setNextFocusableComponent(currRented);
+
+        agreement.setModel(new javax.swing.SpinnerListModel(new String[] {"True", "False"}));
+
+        room.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        room.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                roomActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -322,19 +332,20 @@ public class TenantDetails extends javax.swing.JFrame {
                                     .addComponent(jLabel15))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(notes)
-                                        .addComponent(dues)
-                                        .addComponent(agreement, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(currRented)
-                                        .addComponent(name)
-                                        .addComponent(rent)
-                                        .addComponent(address)
-                                        .addComponent(advance)
-                                        .addComponent(vacated)
-                                        .addComponent(room)
-                                        .addComponent(rented, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(notes, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                                            .addComponent(dues))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(name, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                                            .addComponent(address)
+                                            .addComponent(room, javax.swing.GroupLayout.Alignment.TRAILING))
+                                        .addComponent(rent, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(advance, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(rented, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(vacated, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(currRented, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(agreement, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(add)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -369,14 +380,14 @@ public class TenantDetails extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(back)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
+                .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(room, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
+                            .addComponent(jLabel2)
+                            .addComponent(room, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -387,29 +398,28 @@ public class TenantDetails extends javax.swing.JFrame {
                             .addComponent(jLabel4))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(rent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5))
+                            .addComponent(jLabel5)
+                            .addComponent(rent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(advance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel9))
+                            .addComponent(jLabel9)
+                            .addComponent(advance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(rented, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7))
+                            .addComponent(jLabel7)
+                            .addComponent(rented, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(vacated, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6))
+                            .addComponent(jLabel6)
+                            .addComponent(vacated, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(currRented, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGap(27, 27, 27)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(agreement, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel14))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jLabel14)
+                                    .addComponent(agreement, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(7, 7, 7)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(dues, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel15))
@@ -417,7 +427,9 @@ public class TenantDetails extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(notes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel8)))
-                            .addComponent(jLabel13)))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel13)
+                                .addComponent(currRented, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -433,6 +445,8 @@ public class TenantDetails extends javax.swing.JFrame {
                 .addGap(58, 58, 58))
         );
 
+        agreement.getAccessibleContext().setAccessibleName("");
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -442,53 +456,57 @@ public class TenantDetails extends javax.swing.JFrame {
         close();
     }//GEN-LAST:event_backActionPerformed
 
-    private void rentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rentActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rentActionPerformed
-
-    private void currRentedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_currRentedActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_currRentedActionPerformed
-
     private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
         // TODO add your handling code here:
-        String dateVal = room.getText();
+        String roomVal = room.getText();
         String nameVal = name.getText();
-        String numberVal = address.getText();
-        String addressVal = rent.getText();
-        String ageVal = advance.getText();
-        String doctorVal = rented.getText();
-        String ailmentVal = vacated.getText();
-        String feesVal = currRented.getText();
+        String addressVal = address.getText();
+        String rentVal = rent.getText();
+        String advanceVal = advance.getText();
+        String rentedVal = rented.getText();
+        String vacatedVal = vacated.getText();
+        String currRentedVal = currRented.getValue().toString();
+        String agreementVal = agreement.getValue().toString();
+        String duesVal = dues.getText();
+        String notesVal = notes.getText();
 
-        if(dateVal.equals("")){
+        if(roomVal.equals("")){
             JOptionPane.showMessageDialog(null, "Please enter patient's date of visit");
         } else if(nameVal.equals("")){
             JOptionPane.showMessageDialog(null, "Please enter patient's name");
-        }else if(numberVal.equals("")){
-            JOptionPane.showMessageDialog(null, "Please enter patient's mobile number");
         }else if(addressVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please enter patient's mobile number");
+        }else if(rentVal.equals("")){
             JOptionPane.showMessageDialog(null, "Please enter patient's address");
-        }else if(ageVal.equals("")){
+        }else if(advanceVal.equals("")){
             JOptionPane.showMessageDialog(null, "Please enter patient's age");
-        }else if(doctorVal.equals("")){
+        }else if(rentedVal.equals("")){
             JOptionPane.showMessageDialog(null, "Please enter patient's doctor");
-        }else if(ailmentVal.equals("")){
+        }else if(vacatedVal.equals("")){
             JOptionPane.showMessageDialog(null, "Please enter patient's ailment");
-        }else if(feesVal.equals("")){
+        }else if(currRentedVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please enter patient's fees");
+        }else if(agreementVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please enter patient's doctor");
+        }else if(duesVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please enter patient's ailment");
+        }else if(notesVal.equals("")){
             JOptionPane.showMessageDialog(null, "Please enter patient's fees");
         }else{
 
             try{
-                PreparedStatement pst = connection.prepareStatement("insert into patients (DATE_OF_VISIT, NAME, NUMBER, ADDRESS, AGE, DOCTOR_VISITED, AILMENT, FEES) values (?,?,?,?,?,?,?,?)");
-                pst.setString(1, dateVal);
+                PreparedStatement pst = connection.prepareStatement("insert into tenants (roomNumber, name, address, rent, advance, dateRented, dateVacated, currentlyRented, agreementValid, dues, notes) values (?,?,?,?,?,?,?,?,?,?,?)");
+                pst.setString(1, roomVal);
                 pst.setString(2, nameVal);
-                pst.setString(3, numberVal);
-                pst.setString(4, addressVal);
-                pst.setString(5, ageVal);
-                pst.setString(6, doctorVal);
-                pst.setString(7, ailmentVal);
-                pst.setString(8, feesVal);
+                pst.setString(3, addressVal);
+                pst.setString(4, rentVal);
+                pst.setString(5, advanceVal);
+                pst.setString(6, rentedVal);
+                pst.setString(7, vacatedVal);
+                pst.setString(8, currRentedVal);
+                pst.setString(9, agreementVal);
+                pst.setString(10, duesVal);
+                pst.setString(11, notesVal);
 
                 pst.executeUpdate();
                 JOptionPane.showMessageDialog(null, "Patient " + nameVal + " added successfully");
@@ -501,7 +519,10 @@ public class TenantDetails extends javax.swing.JFrame {
                 advance.setText("");
                 rented.setText("");
                 vacated.setText("");
-                currRented.setText("");
+                currRented.setValue("True");
+                agreement.setValue("True");
+                dues.setText("");
+                notes.setText("");
             }catch(Exception ex){
                 System.out.println("Insert Error: \n" + ex);
             }
@@ -509,30 +530,22 @@ public class TenantDetails extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_addActionPerformed
 
-    private void rentedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rentedActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rentedActionPerformed
-
-    private void roomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roomActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_roomActionPerformed
-
     private void updateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_updateMouseClicked
 
         String dateVal = room.getText();
         String nameVal = name.getText();
-        String numberVal = address.getText();
-        String addressVal = rent.getText();
+        String addressVal = address.getText();
+        String rentVal = rent.getText();
         String ageVal = advance.getText();
         String doctorVal = rented.getText();
         String ailmentVal = vacated.getText();
-        String feesVal = currRented.getText();
+        String feesVal = currRented.getValue().toString();
 
         if(dateVal.equals("")){
             JOptionPane.showMessageDialog(null, "Please select a patient from the table to update");
         } else if(nameVal.equals("")){
             JOptionPane.showMessageDialog(null, "Please select a patient from the table to update");
-        }else if(numberVal.equals("")){
+        }else if(addressVal.equals("")){
             JOptionPane.showMessageDialog(null, "Please select a patient from the table to update");
         }else if(addressVal.equals("")){
             JOptionPane.showMessageDialog(null, "Please select a patient from the table to update");
@@ -556,7 +569,7 @@ public class TenantDetails extends javax.swing.JFrame {
 
                 pst.setString(1, dateVal);
                 pst.setString(2, nameVal);
-                pst.setString(3, numberVal);
+                pst.setString(3, addressVal);
                 pst.setString(4, addressVal);
                 pst.setString(5, ageVal);
                 pst.setString(6, doctorVal);
@@ -593,7 +606,7 @@ public class TenantDetails extends javax.swing.JFrame {
         // TODO add your handling code here:
         String dateVal = room.getText();
         String nameVal = name.getText();
-        String numberVal = address.getText();
+        String addressVal = address.getText();
         String addressVal = rent.getText();
         String ageVal = advance.getText();
         String doctorVal = rented.getText();
@@ -604,7 +617,7 @@ public class TenantDetails extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Please select a patient from the table to delete");
         } else if(nameVal.equals("")){
             JOptionPane.showMessageDialog(null, "Please select a patient from the table to delete");
-        }else if(numberVal.equals("")){
+        }else if(addressVal.equals("")){
             JOptionPane.showMessageDialog(null, "Please select a patient from the table to delete");
         }else if(addressVal.equals("")){
             JOptionPane.showMessageDialog(null, "Please select a patient from the table to delete");
@@ -753,8 +766,8 @@ public class TenantDetails extends javax.swing.JFrame {
         advance.setText(model.getValueAt(selectedIndex, 5).toString());
         rented.setText(model.getValueAt(selectedIndex, 6).toString());
         vacated.setText(model.getValueAt(selectedIndex, 7).toString());
-        currRented.setText(model.getValueAt(selectedIndex, 8).toString());
-        agreement.setText(model.getValueAt(selectedIndex, 9).toString());
+        currRented.setToolTipText(model.getValueAt(selectedIndex, 8).toString());
+        agreement.setToolTipText(model.getValueAt(selectedIndex, 9).toString());
         dues.setText(model.getValueAt(selectedIndex, 10).toString());
         notes.setText(model.getValueAt(selectedIndex, 11).toString());
     }//GEN-LAST:event_tenants_tableMouseClicked
@@ -767,9 +780,17 @@ public class TenantDetails extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_notesActionPerformed
 
-    private void agreementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agreementActionPerformed
+    private void rentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rentActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_agreementActionPerformed
+    }//GEN-LAST:event_rentActionPerformed
+
+    private void vacatedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vacatedActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_vacatedActionPerformed
+
+    private void roomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roomActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_roomActionPerformed
 
     public void close(){
         WindowEvent closeWindow = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
@@ -813,10 +834,10 @@ public class TenantDetails extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton add;
     private javax.swing.JTextField address;
-    private javax.swing.JTextField advance;
-    private javax.swing.JTextField agreement;
+    private javax.swing.JFormattedTextField advance;
+    private javax.swing.JSpinner agreement;
     private javax.swing.JToggleButton back;
-    private javax.swing.JTextField currRented;
+    private javax.swing.JSpinner currRented;
     private javax.swing.JButton delete;
     private javax.swing.JTextField dues;
     private javax.swing.JButton jButton1;
@@ -837,14 +858,14 @@ public class TenantDetails extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField name;
     private javax.swing.JTextField notes;
-    private javax.swing.JTextField rent;
-    private javax.swing.JTextField rented;
+    private javax.swing.JFormattedTextField rent;
+    private javax.swing.JFormattedTextField rented;
     private javax.swing.JFormattedTextField room;
     private javax.swing.JToggleButton search;
     private javax.swing.JTextField searchName;
     private javax.swing.JTextField searchNumber;
     private javax.swing.JTable tenants_table;
     private javax.swing.JButton update;
-    private javax.swing.JTextField vacated;
+    private javax.swing.JFormattedTextField vacated;
     // End of variables declaration//GEN-END:variables
 }
