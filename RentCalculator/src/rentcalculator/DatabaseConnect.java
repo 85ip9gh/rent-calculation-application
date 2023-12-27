@@ -12,21 +12,22 @@ import javax.swing.JOptionPane;
  *
  * @author pesanth
  */
-public class RentCalculator {
+public class DatabaseConnect {
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public Connection getConnection(){
         try{
             Class.forName("org.h2.Driver");
             Connection connection = DriverManager.getConnection("jdbc:h2:./database/rentCalc", "admin","");
             System.out.println("Connected to Database");
-
+            return connection;
 //          table name: tenants
 
         }catch(Exception ex){
             JOptionPane.showMessageDialog(null, "Database Connection Error: \n" + ex);
+            return null;
         }
     }
     

@@ -4,17 +4,86 @@
  */
 package rentcalculator;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.event.WindowEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.util.Vector;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author pesanth
  */
 public class TenantDetails extends javax.swing.JFrame {
+    DatabaseConnect connectionDB = new DatabaseConnect();
+    Connection connection = connectionDB.getConnection();
 
     /**
      * Creates new form TenantDetails
      */
     public TenantDetails() {
         initComponents();
+        centerFrameOnScreen();
+        showTenants();
+    }
+    
+    private void centerFrameOnScreen() {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Dimension frameSize = getSize();
+
+        int x = (screenSize.width - frameSize.width) / 2;
+        int y = (screenSize.height - frameSize.height) / 2;
+
+        setLocation(x, y);
+    }
+    
+    private void showTenants(){
+        
+        int columnCount;
+        
+        try {
+            PreparedStatement pst = connection.prepareStatement("select * from tenants");
+            ResultSet set = pst.executeQuery();
+            ResultSetMetaData meta = set.getMetaData();
+            columnCount = meta.getColumnCount();
+            DefaultTableModel model = (DefaultTableModel)tenants_table.getModel();
+           
+            room.setText("yyyy-mm-dd"); 
+            
+            model.setRowCount(0);
+            
+            while(set.next()){
+                Vector v2 = new Vector();           
+                
+                for(int i = 0; i <= columnCount; i++){
+                    v2.add((set.getString("roomNumber")));
+                    v2.add((set.getString("name")));
+                    v2.add((set.getString("address")));
+                    v2.add((set.getString("rent")));
+                    v2.add((set.getString("advance")));
+                    v2.add((set.getString("dateRented")));
+                    v2.add((set.getString("dateVacated")));
+                    v2.add((set.getString("currentlyRented")));
+                    v2.add((set.getString("agreementValid")));
+                    v2.add((set.getString("dues")));
+                    v2.add((set.getString("notes")));
+                }
+                
+                model.addRow(v2);
+                 System.out.println("Tenants Successfully Loaded");
+            }
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+            System.out.println("Show tenants error: \n" + e);
+        }
+        
+        
     }
 
     /**
@@ -26,22 +95,686 @@ public class TenantDetails extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        back = new javax.swing.JToggleButton();
+        jLabel1 = new javax.swing.JLabel();
+        rent = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        advance = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        vacated = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        currRented = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        add = new javax.swing.JButton();
+        rented = new javax.swing.JTextField();
+        room = new javax.swing.JFormattedTextField();
+        jLabel10 = new javax.swing.JLabel();
+        update = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        searchNumber = new javax.swing.JTextField();
+        delete = new javax.swing.JButton();
+        searchName = new javax.swing.JTextField();
+        search = new javax.swing.JToggleButton();
+        jLabel9 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tenants_table = new javax.swing.JTable();
+        name = new javax.swing.JTextField();
+        address = new javax.swing.JTextField();
+        dues = new javax.swing.JTextField();
+        notes = new javax.swing.JTextField();
+        agreement = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        back.setText("Previous");
+        back.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Noto Sans", 1, 18)); // NOI18N
+        jLabel1.setText("TENANT INFORMATION SYSTEM");
+
+        rent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rentActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Room Number:");
+
+        jLabel3.setText("Tenant Name:");
+
+        jLabel4.setText("Address:");
+
+        currRented.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                currRentedActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("Rent");
+
+        add.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
+        add.setText("Add");
+        add.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addActionPerformed(evt);
+            }
+        });
+
+        rented.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rentedActionPerformed(evt);
+            }
+        });
+
+        room.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("yyyy-MM-dd"))));
+        room.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                roomActionPerformed(evt);
+            }
+        });
+
+        jLabel10.setText("Search by Room Number:");
+
+        update.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
+        update.setText("Update");
+        update.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                updateMouseClicked(evt);
+            }
+        });
+
+        jLabel11.setText("Search by Name:");
+
+        jLabel7.setText("Date Rented");
+
+        searchNumber.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchNumberActionPerformed(evt);
+            }
+        });
+
+        delete.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
+        delete.setText("Delete");
+        delete.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                deleteMouseClicked(evt);
+            }
+        });
+
+        searchName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchNameActionPerformed(evt);
+            }
+        });
+
+        search.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
+        search.setText("Search");
+        search.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                searchMouseClicked(evt);
+            }
+        });
+
+        jLabel9.setText("Advance");
+
+        jButton1.setFont(new java.awt.Font("Noto Sans", 1, 12)); // NOI18N
+        jButton1.setText("Refresh Patients");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
+
+        tenants_table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Room Number", "Name", "Address", "Rent", "Advance", "Date Rented ", "Date Vacated", "Currently Rented ?", "Is Agreement Valid?", "Dues ", "Notes "
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tenants_table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tenants_tableMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tenants_table);
+
+        name.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nameActionPerformed(evt);
+            }
+        });
+
+        notes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                notesActionPerformed(evt);
+            }
+        });
+
+        agreement.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                agreementActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setText("Notes:");
+
+        jLabel6.setText("Date Vacated:");
+
+        jLabel13.setText("Currently Rented?");
+
+        jLabel14.setText("Is Agreement Valid?");
+
+        jLabel15.setText("Dues");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel9)
+                                    .addComponent(jLabel7)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel13)
+                                    .addComponent(jLabel8)
+                                    .addComponent(jLabel14)
+                                    .addComponent(jLabel15))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(notes)
+                                        .addComponent(dues)
+                                        .addComponent(agreement, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(currRented)
+                                        .addComponent(name)
+                                        .addComponent(rent)
+                                        .addComponent(address)
+                                        .addComponent(advance)
+                                        .addComponent(vacated)
+                                        .addComponent(room)
+                                        .addComponent(rented, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(add)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(update)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(delete)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(47, 47, 47)
+                                .addComponent(jLabel10)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(searchName, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(24, 24, 24)
+                                .addComponent(jLabel11)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(searchNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(search)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 590, Short.MAX_VALUE)
+                                .addComponent(jButton1))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane1)))))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(568, 568, 568))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(back)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(room, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(address, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(rent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(advance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel9))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(rented, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(vacated, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(currRented, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(agreement, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel14))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(dues, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel15))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(notes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel8)))
+                            .addComponent(jLabel13)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(31, 31, 31)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(jLabel11)
+                    .addComponent(searchNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(search)
+                    .addComponent(add)
+                    .addComponent(update)
+                    .addComponent(delete)
+                    .addComponent(jButton1))
+                .addGap(58, 58, 58))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
+        Home home = new Home();
+        home.setVisible(true);
+        close();
+    }//GEN-LAST:event_backActionPerformed
+
+    private void rentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rentActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rentActionPerformed
+
+    private void currRentedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_currRentedActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_currRentedActionPerformed
+
+    private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
+        // TODO add your handling code here:
+        String dateVal = room.getText();
+        String nameVal = name.getText();
+        String numberVal = address.getText();
+        String addressVal = rent.getText();
+        String ageVal = advance.getText();
+        String doctorVal = rented.getText();
+        String ailmentVal = vacated.getText();
+        String feesVal = currRented.getText();
+
+        if(dateVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please enter patient's date of visit");
+        } else if(nameVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please enter patient's name");
+        }else if(numberVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please enter patient's mobile number");
+        }else if(addressVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please enter patient's address");
+        }else if(ageVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please enter patient's age");
+        }else if(doctorVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please enter patient's doctor");
+        }else if(ailmentVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please enter patient's ailment");
+        }else if(feesVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please enter patient's fees");
+        }else{
+
+            try{
+                PreparedStatement pst = connection.prepareStatement("insert into patients (DATE_OF_VISIT, NAME, NUMBER, ADDRESS, AGE, DOCTOR_VISITED, AILMENT, FEES) values (?,?,?,?,?,?,?,?)");
+                pst.setString(1, dateVal);
+                pst.setString(2, nameVal);
+                pst.setString(3, numberVal);
+                pst.setString(4, addressVal);
+                pst.setString(5, ageVal);
+                pst.setString(6, doctorVal);
+                pst.setString(7, ailmentVal);
+                pst.setString(8, feesVal);
+
+                pst.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Patient " + nameVal + " added successfully");
+                showTenants();
+
+                room.setText("");
+                name.setText("");
+                address.setText("");
+                rent.setText("");
+                advance.setText("");
+                rented.setText("");
+                vacated.setText("");
+                currRented.setText("");
+            }catch(Exception ex){
+                System.out.println("Insert Error: \n" + ex);
+            }
+
+        }
+    }//GEN-LAST:event_addActionPerformed
+
+    private void rentedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rentedActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rentedActionPerformed
+
+    private void roomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roomActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_roomActionPerformed
+
+    private void updateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_updateMouseClicked
+
+        String dateVal = room.getText();
+        String nameVal = name.getText();
+        String numberVal = address.getText();
+        String addressVal = rent.getText();
+        String ageVal = advance.getText();
+        String doctorVal = rented.getText();
+        String ailmentVal = vacated.getText();
+        String feesVal = currRented.getText();
+
+        if(dateVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please select a patient from the table to update");
+        } else if(nameVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please select a patient from the table to update");
+        }else if(numberVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please select a patient from the table to update");
+        }else if(addressVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please select a patient from the table to update");
+        }else if(ageVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please select a patient from the table to update");
+        }else if(doctorVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please select a patient from the table to update");
+        }else if(ailmentVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please select a patient from the table to update");
+        }else if(feesVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please select a patient from the table to update");
+        }else{
+
+            try{
+
+                DefaultTableModel model = (DefaultTableModel)tenants_table.getModel();
+                int selectedIndex = tenants_table.getSelectedRow();
+                int id = Integer.parseInt(model.getValueAt(selectedIndex, 0).toString());
+
+                PreparedStatement pst = connection.prepareStatement("update patients set DATE_OF_VISIT =?, NAME =?, NUMBER =?, ADDRESS =?, AGE =?, DOCTOR_VISITED =?, AILMENT =?, FEES =? where patient_id=?");
+
+                pst.setString(1, dateVal);
+                pst.setString(2, nameVal);
+                pst.setString(3, numberVal);
+                pst.setString(4, addressVal);
+                pst.setString(5, ageVal);
+                pst.setString(6, doctorVal);
+                pst.setString(7, ailmentVal);
+                pst.setString(8, feesVal);
+                pst.setInt(9, id);
+
+                pst.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Patient " + nameVal + " updated successfully");
+                showTenants();
+
+                room.setText("");
+                name.setText("");
+                address.setText("");
+                rent.setText("");
+                advance.setText("");
+                rented.setText("");
+                vacated.setText("");
+                currRented.setText("");
+            }catch(Exception ex){
+                System.out.println("Update Error: \n" + ex);
+                JOptionPane.showMessageDialog(null, "Update Error: \n" + ex);
+            }
+
+        }
+
+    }//GEN-LAST:event_updateMouseClicked
+
+    private void searchNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchNumberActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchNumberActionPerformed
+
+    private void deleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteMouseClicked
+        // TODO add your handling code here:
+        String dateVal = room.getText();
+        String nameVal = name.getText();
+        String numberVal = address.getText();
+        String addressVal = rent.getText();
+        String ageVal = advance.getText();
+        String doctorVal = rented.getText();
+        String ailmentVal = vacated.getText();
+        String feesVal = currRented.getText();
+
+        if(dateVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please select a patient from the table to delete");
+        } else if(nameVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please select a patient from the table to delete");
+        }else if(numberVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please select a patient from the table to delete");
+        }else if(addressVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please select a patient from the table to delete");
+        }else if(ageVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please select a patient from the table to delete");
+        }else if(doctorVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please select a patient from the table to delete");
+        }else if(ailmentVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please select a patient from the table to delete");
+        }else if(feesVal.equals("")){
+            JOptionPane.showMessageDialog(null, "Please select a patient from the table to delete");
+        }else{
+
+            try{
+
+                DefaultTableModel model = (DefaultTableModel)tenants_table.getModel();
+                int selectedIndex = tenants_table.getSelectedRow();
+                int id = Integer.parseInt(model.getValueAt(selectedIndex, 0).toString());
+
+                PreparedStatement pst = connection.prepareStatement("delete from patients where patient_id=?");
+                pst.setInt(1, id);
+
+                pst.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Patient " + nameVal + " deleted successfully");
+                showTenants();
+
+                room.setText("");
+                name.setText("");
+                address.setText("");
+                rent.setText("");
+                advance.setText("");
+                rented.setText("");
+                vacated.setText("");
+                currRented.setText("");
+            }catch(Exception ex){
+                System.out.println("Delete Error: \n" + ex);
+                JOptionPane.showMessageDialog(null, "Update Error: \n" + ex);
+
+            }
+        }
+    }//GEN-LAST:event_deleteMouseClicked
+
+    private void searchNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchNameActionPerformed
+
+    private void searchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchMouseClicked
+        // TODO add your handling code here:
+        int columnCount;
+
+        if(!searchName.getText().equals("") && !searchNumber.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Please search by either name or mobile number, not both");
+        }else if(!searchName.getText().equals("") && searchNumber.getText().equals("")){
+            try{
+
+                PreparedStatement pst = connection.prepareStatement("select * from patients where name ilike  ?");
+                pst.setString(1, "%" + searchName.getText() + "%");
+
+                ResultSet set = pst.executeQuery();
+                ResultSetMetaData meta = set.getMetaData();
+                columnCount = meta.getColumnCount();
+                DefaultTableModel model = (DefaultTableModel)tenants_table.getModel();
+
+                model.setRowCount(0);
+
+                while(set.next()){
+                    Vector v2 = new Vector();
+
+                    for(int i = 0; i <= columnCount; i++){
+                        v2.add((set.getString("patient_id")));
+                        v2.add((set.getString("date_of_visit")));
+                        v2.add((set.getString("name")));
+                        v2.add((set.getString("number")));
+                        v2.add((set.getString("address")));
+                        v2.add((set.getString("age")));
+                        v2.add((set.getString("doctor_visited")));
+                        v2.add((set.getString("ailment")));
+                        v2.add((set.getString("fees")));
+                    }
+
+                    model.addRow(v2);
+                }
+            }catch(Exception ex){
+                System.out.println("Search Error: \n" + ex);
+                JOptionPane.showMessageDialog(null, "Search Error: \n" + ex);
+
+            }
+
+        }else if(searchName.getText().equals("") && !searchNumber.getText().equals("")){
+            try{
+
+                PreparedStatement pst = connection.prepareStatement("select * from patients where number like ?");
+                pst.setString(1, "%" + searchNumber.getText() + "%");
+
+                ResultSet set = pst.executeQuery();
+                ResultSetMetaData meta = set.getMetaData();
+                columnCount = meta.getColumnCount();
+                DefaultTableModel model = (DefaultTableModel)tenants_table.getModel();
+
+                model.setRowCount(0);
+
+                while(set.next()){
+                    Vector v2 = new Vector();
+
+                    for(int i = 0; i <= columnCount; i++){
+                        v2.add((set.getString("patient_id")));
+                        v2.add((set.getString("date_of_visit")));
+                        v2.add((set.getString("name")));
+                        v2.add((set.getString("number")));
+                        v2.add((set.getString("address")));
+                        v2.add((set.getString("age")));
+                        v2.add((set.getString("doctor_visited")));
+                        v2.add((set.getString("ailment")));
+                        v2.add((set.getString("fees")));
+                    }
+
+                    model.addRow(v2);
+                }
+            }catch(Exception ex){
+                System.out.println("Search Error: \n" + ex);
+                JOptionPane.showMessageDialog(null, "Search Error: \n" + ex);
+
+            }
+        }else{
+            showTenants();
+        }
+
+    }//GEN-LAST:event_searchMouseClicked
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        // TODO add your handling code here:
+        showTenants();
+    }//GEN-LAST:event_jButton1MouseClicked
+
+    private void tenants_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tenants_tableMouseClicked
+        // TODO add your handling code here:
+
+        DefaultTableModel model = (DefaultTableModel)tenants_table.getModel();
+        int selectedIndex = tenants_table.getSelectedRow();
+
+        int id = Integer.parseInt(model.getValueAt(selectedIndex, 0).toString());
+        room.setText(model.getValueAt(selectedIndex, 1).toString());
+        name.setText(model.getValueAt(selectedIndex, 2).toString());
+        address.setText(model.getValueAt(selectedIndex, 3).toString());
+        rent.setText(model.getValueAt(selectedIndex, 4).toString());
+        advance.setText(model.getValueAt(selectedIndex, 5).toString());
+        rented.setText(model.getValueAt(selectedIndex, 6).toString());
+        vacated.setText(model.getValueAt(selectedIndex, 7).toString());
+        currRented.setText(model.getValueAt(selectedIndex, 8).toString());
+        agreement.setText(model.getValueAt(selectedIndex, 9).toString());
+        dues.setText(model.getValueAt(selectedIndex, 10).toString());
+        notes.setText(model.getValueAt(selectedIndex, 11).toString());
+    }//GEN-LAST:event_tenants_tableMouseClicked
+
+    private void nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nameActionPerformed
+
+    private void notesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_notesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_notesActionPerformed
+
+    private void agreementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agreementActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_agreementActionPerformed
+
+    public void close(){
+        WindowEvent closeWindow = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
+        Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(closeWindow);
+    }
     /**
      * @param args the command line arguments
      */
@@ -78,5 +811,40 @@ public class TenantDetails extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton add;
+    private javax.swing.JTextField address;
+    private javax.swing.JTextField advance;
+    private javax.swing.JTextField agreement;
+    private javax.swing.JToggleButton back;
+    private javax.swing.JTextField currRented;
+    private javax.swing.JButton delete;
+    private javax.swing.JTextField dues;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField name;
+    private javax.swing.JTextField notes;
+    private javax.swing.JTextField rent;
+    private javax.swing.JTextField rented;
+    private javax.swing.JFormattedTextField room;
+    private javax.swing.JToggleButton search;
+    private javax.swing.JTextField searchName;
+    private javax.swing.JTextField searchNumber;
+    private javax.swing.JTable tenants_table;
+    private javax.swing.JButton update;
+    private javax.swing.JTextField vacated;
     // End of variables declaration//GEN-END:variables
 }

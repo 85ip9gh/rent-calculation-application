@@ -1,0 +1,3 @@
+2023-12-26 22:13:45.273796-04:00 jdbc[5]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PATIENTS" not found; SQL statement:
+insert into patients (DATE_OF_VISIT, NAME, NUMBER, ADDRESS, AGE, DOCTOR_VISITED, AILMENT, FEES) values (?,?,?,?,?,?,?,?) [42102-224]

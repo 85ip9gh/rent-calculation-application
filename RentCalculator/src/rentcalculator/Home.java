@@ -4,6 +4,10 @@
  */
 package rentcalculator;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.event.WindowEvent;
+
 /**
  *
  * @author pesanth
@@ -15,6 +19,17 @@ public class Home extends javax.swing.JFrame {
      */
     public Home() {
         initComponents();
+    centerFrameOnScreen();
+    }
+    
+    private void centerFrameOnScreen() {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Dimension frameSize = getSize();
+
+        int x = (screenSize.width - frameSize.width) / 2;
+        int y = (screenSize.height - frameSize.height) / 2;
+
+        setLocation(x, y);
     }
 
     /**
@@ -26,22 +41,103 @@ public class Home extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        tenantDetails = new javax.swing.JToggleButton();
+        EBCalc = new javax.swing.JToggleButton();
+        rentCalc = new javax.swing.JToggleButton();
+        back = new javax.swing.JToggleButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        tenantDetails.setText("Tenant Details");
+        tenantDetails.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tenantDetailsActionPerformed(evt);
+            }
+        });
+
+        EBCalc.setText("EB Calculator");
+        EBCalc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EBCalcActionPerformed(evt);
+            }
+        });
+
+        rentCalc.setText("Rent Calculator");
+        rentCalc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rentCalcActionPerformed(evt);
+            }
+        });
+
+        back.setText("Previous");
+        back.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(134, 134, 134)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(rentCalc, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(EBCalc, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tenantDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(151, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(back)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addComponent(tenantDetails, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(EBCalc, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(rentCalc, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(69, 69, 69))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void tenantDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tenantDetailsActionPerformed
+            TenantDetails tenantDetails = new TenantDetails();
+            tenantDetails.setVisible(true);
+            close();
+    }//GEN-LAST:event_tenantDetailsActionPerformed
+
+    private void backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backActionPerformed
+            LoginPage loginPage = new LoginPage();
+            loginPage.setVisible(true);
+            close();
+    }//GEN-LAST:event_backActionPerformed
+
+    private void EBCalcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EBCalcActionPerformed
+            EBCalculator eBCalculator = new EBCalculator();
+            eBCalculator.setVisible(true);
+            close();
+    }//GEN-LAST:event_EBCalcActionPerformed
+
+    private void rentCalcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rentCalcActionPerformed
+            RentCalculator rentCalculator = new RentCalculator();
+            rentCalculator.setVisible(true);
+            close();
+    }//GEN-LAST:event_rentCalcActionPerformed
+
+    public void close(){
+        WindowEvent closeWindow = new WindowEvent(this, WindowEvent.WINDOW_CLOSING);
+        Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(closeWindow);
+    }
     /**
      * @param args the command line arguments
      */
@@ -78,5 +174,9 @@ public class Home extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToggleButton EBCalc;
+    private javax.swing.JToggleButton back;
+    private javax.swing.JToggleButton rentCalc;
+    private javax.swing.JToggleButton tenantDetails;
     // End of variables declaration//GEN-END:variables
 }
