@@ -17,20 +17,16 @@ public class RentCalculator {
     /**
      * @param args the command line arguments
      */
-    public Connection getConnection(){
-        // TODO code application logic here
-        
+    public static void main(String[] args) {
         try{
             Class.forName("org.h2.Driver");
             Connection connection = DriverManager.getConnection("jdbc:h2:./database/rentCalc", "admin","");
             System.out.println("Connected to Database");
-            return connection;
 
 //          table name: tenants
 
         }catch(Exception ex){
             JOptionPane.showMessageDialog(null, "Database Connection Error: \n" + ex);
-            return null;
         }
     }
     
