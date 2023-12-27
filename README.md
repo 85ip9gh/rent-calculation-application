@@ -40,6 +40,7 @@
 
 ## 12/26/2023
 - create table tenants(
+    tenantID int NOT NULL AUTO_INCREMENT,
     roomNumber INT,
     name VARCHAR(255),
     address VARCHAR(255),
@@ -52,7 +53,9 @@
     dues DOUBLE,
     notes VARCHAR(255)
 )
-- insert into tenants values(
+- insert into tenants 
+(roomNumber, name, address, rent, advance, dateRented, dateVacated, currentlyRented, agreementValid, dues, notes)
+values(
     12,
     'Sam Man',
     'Random Address',

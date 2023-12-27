@@ -57,40 +57,7 @@ public class TenantDetails extends javax.swing.JFrame {
         int y = (screenSize.height - frameSize.height) / 2;
 
         setLocation(x, y);
-    }
-    
-    
-public class IndianCurrencyFormatter extends DefaultFormatter {
-    @Override
-    public Object stringToValue(String text) throws ParseException {
-        try {
-            // Remove commas from the existing text
-            String cleanText = text.replaceAll(",", "");
-
-            // Parse the text
-            return Long.parseLong(cleanText);
-        } catch (NumberFormatException e) {
-            throw new ParseException("Invalid number format", 0);
-        }
-    }
-
-    @Override
-    public String valueToString(Object value) throws ParseException {
-        if (value instanceof Number) {
-            // Format the value with commas and according to the Indian numbering system
-            return formatIndianCurrency((Number) value);
-        }
-        return super.valueToString(value);
-    }
-
-    private String formatIndianCurrency(Number number) {
-        long value = number.longValue();
-
-        // Format the value with commas for display in Indian currency format
-        DecimalFormat indianFormat = new DecimalFormat("#,##,##0");
-        return indianFormat.format(value);
-    }
-}
+    }  
     
     private void showTenants(){
         int columnCount;
@@ -101,8 +68,6 @@ public class IndianCurrencyFormatter extends DefaultFormatter {
             ResultSetMetaData meta = set.getMetaData();
             columnCount = meta.getColumnCount();
             DefaultTableModel model = (DefaultTableModel)tenants_table.getModel();
-            Locale  locale = new Locale("en", "IN");
-            NumberFormat indianFormat = NumberFormat.getInstance(locale);
             
             model.setRowCount(0);
             
@@ -113,13 +78,13 @@ public class IndianCurrencyFormatter extends DefaultFormatter {
                     v2.add((set.getString("roomNumber")));
                     v2.add((set.getString("name")));
                     v2.add((set.getString("address")));
-                    v2.add(indianFormat.format(Double.parseDouble(set.getString("rent"))));
-                    v2.add(indianFormat.format(Double.parseDouble(set.getString("advance"))));
+                    v2.add(set.getString("rent"));
+                    v2.add(set.getString("advance"));
                     v2.add((set.getString("dateRented")));
                     v2.add((set.getString("dateVacated")));
                     v2.add((set.getString("currentlyRented")));
                     v2.add((set.getString("agreementValid")));
-                    v2.add(indianFormat.format(Double.parseDouble(set.getString("dues"))));
+                    v2.add(set.getString("dues"));
                     v2.add((set.getString("notes")));
                 }
                 
@@ -315,7 +280,6 @@ public class IndianCurrencyFormatter extends DefaultFormatter {
 
         jLabel15.setText("Dues");
 
-        rent.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("###.##"))));
         rent.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rentActionPerformed(evt);
@@ -345,8 +309,6 @@ public class IndianCurrencyFormatter extends DefaultFormatter {
                 roomActionPerformed(evt);
             }
         });
-
-        advance.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("###.##"))));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -501,13 +463,13 @@ public class IndianCurrencyFormatter extends DefaultFormatter {
         String roomVal = room.getText();
         String nameVal = name.getText();
         String addressVal = address.getText();
-        String rentVal = rent.getText().replaceAll(",", "").replaceAll("\\.", "");
-        String advanceVal = advance.getText().replaceAll(",", "").replaceAll("\\.", "");
+        String rentVal = rent.getText().replaceAll(",", "");
+        String advanceVal = advance.getText().replaceAll(",", "");
         String rentedVal = rented.getText();
         String vacatedVal = vacated.getText();
         String currRentedVal = currRented.getValue().toString();
         String agreementVal = agreement.getValue().toString();
-        String duesVal = dues.getText().replaceAll(",", "");
+        String duesVal = dues.getText().replaceAll(",", "").replaceAll("\\.", "");
         String notesVal = notes.getText();
 
         if(roomVal.equals("")){
@@ -575,8 +537,8 @@ public class IndianCurrencyFormatter extends DefaultFormatter {
         String roomVal = room.getText();
         String nameVal = name.getText();
         String addressVal = address.getText();
-        String rentVal = rent.getText().replaceAll(",", "").replaceAll("\\.", "");
-        String advanceVal = advance.getText().replaceAll(",", "").replaceAll("\\.", "");
+        String rentVal = rent.getText().replaceAll(",", "");
+        String advanceVal = advance.getText().replaceAll(",", "");
         String rentedVal = rented.getText();
         String vacatedVal = vacated.getText();
         String currRentedVal = currRented.getValue().toString();
