@@ -126,3 +126,6 @@ Caused by: java.lang.NumberFormatException: 3.
 	at org.h2.util.DateTimeUtils.parseDateValue(DateTimeUtils.java:191)
 	at org.h2.value.ValueDate.parse(ValueDate.java:51)
 	... 49 more
+2023-12-27 10:17:17.112773-04:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "'12,000' (TENANTS: ""RENT"" DOUBLE PRECISION)"; SQL statement:
+update tenants set roomNumber =?, name =?, address =?, rent =?, advance =?, dateRented =?, dateVacated =?, currentlyRented =?, agreementValid =?, dues =?, notes =? where roomNumber=? [22018-224]
