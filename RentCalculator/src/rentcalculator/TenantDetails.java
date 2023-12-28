@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.text.DateFormat;
 import java.util.Vector;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
@@ -21,6 +22,9 @@ import java.util.Locale;
 import javax.swing.text.DefaultFormatter;
 import java.text.DecimalFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.Date;
 
 /**
  *
@@ -37,9 +41,6 @@ public class TenantDetails extends javax.swing.JFrame {
         initComponents();
         centerFrameOnScreen();
         showTenants();
-        
-        rented.setText("YYYY-MM-DD");
-        vacated.setText("YYYY-MM-DD");
         
         JComponent editor = currRented.getEditor();
         JComponent editorAgreement = agreement.getEditor();
@@ -139,12 +140,12 @@ public class TenantDetails extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         rent = new javax.swing.JFormattedTextField();
         dues = new javax.swing.JFormattedTextField();
-        rented = new javax.swing.JFormattedTextField();
-        vacated = new javax.swing.JFormattedTextField();
         currRented = new javax.swing.JSpinner();
         agreement = new javax.swing.JSpinner();
         room = new javax.swing.JFormattedTextField();
         advance = new javax.swing.JFormattedTextField();
+        vacated = new com.toedter.calendar.JDateChooser();
+        rented = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -289,16 +290,6 @@ public class TenantDetails extends javax.swing.JFrame {
 
         dues.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("###.##"))));
 
-        rented.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("yyyy-MM-dd"))));
-        rented.setText("YYYY-MM-DD");
-
-        vacated.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("yyyy-MM-dd"))));
-        vacated.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                vacatedActionPerformed(evt);
-            }
-        });
-
         currRented.setModel(new javax.swing.SpinnerListModel(new String[] {"TRUE", "FALSE"}));
         currRented.setNextFocusableComponent(currRented);
 
@@ -311,6 +302,10 @@ public class TenantDetails extends javax.swing.JFrame {
             }
         });
 
+        vacated.setDateFormatString("yyyy-MM-dd");
+
+        rented.setDateFormatString("yyyy-MM-dd");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -321,14 +316,6 @@ public class TenantDetails extends javax.swing.JFrame {
                     .addComponent(back, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel13)
-                                    .addComponent(jLabel14))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(agreement, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(currRented, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addComponent(jLabel15)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -342,9 +329,7 @@ public class TenantDetails extends javax.swing.JFrame {
                                             .addComponent(jLabel3)
                                             .addComponent(jLabel4)
                                             .addComponent(jLabel5)
-                                            .addComponent(jLabel9)
-                                            .addComponent(jLabel7)
-                                            .addComponent(jLabel6))
+                                            .addComponent(jLabel9))
                                         .addGap(37, 37, 37)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -352,9 +337,7 @@ public class TenantDetails extends javax.swing.JFrame {
                                                     .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                     .addComponent(address, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                     .addComponent(room, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addComponent(rent, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(rented, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addComponent(vacated, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(rent, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                                             .addComponent(advance, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(add)
@@ -365,7 +348,20 @@ public class TenantDetails extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel8)
                                         .addGap(88, 88, 88)
-                                        .addComponent(notes, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                        .addComponent(notes, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel13)
+                                    .addComponent(jLabel14)
+                                    .addComponent(jLabel7)
+                                    .addComponent(jLabel6))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(vacated, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(agreement, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(currRented, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(rented, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(47, 47, 47)
@@ -419,11 +415,11 @@ public class TenantDetails extends javax.swing.JFrame {
                             .addComponent(jLabel9)
                             .addComponent(advance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(rented, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(rented, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel6)
                             .addComponent(vacated, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -475,8 +471,11 @@ public class TenantDetails extends javax.swing.JFrame {
         String addressVal = address.getText();
         String rentVal = rent.getText().replaceAll(",", "");
         String advanceVal = advance.getText().replaceAll(",", "");
-        String rentedVal = rented.getText();
-        String vacatedVal = vacated.getText();
+        
+        SimpleDateFormat dateFormat = new SimpleDateFormat(rented.getDateFormatString());
+        String rentedVal = dateFormat.format(rented.getDate());
+        String vacatedVal = dateFormat.format(vacated.getDate());
+        
         String currRentedVal = currRented.getValue().toString();
         String agreementVal = agreement.getValue().toString();
         String duesVal = dues.getText().replaceAll(",", "").replaceAll("\\.", "");
@@ -528,9 +527,9 @@ public class TenantDetails extends javax.swing.JFrame {
                 name.setText("");
                 address.setText("");
                 rent.setText("");
-                dues.setText("");
-                rented.setText("");
-                vacated.setText("");
+                advance.setText("");
+                rented.setDate(new Date());
+                vacated.setDate(new Date());
                 currRented.setValue("TRUE");
                 agreement.setValue("TRUE");
                 dues.setText("");
@@ -543,14 +542,19 @@ public class TenantDetails extends javax.swing.JFrame {
     }//GEN-LAST:event_addActionPerformed
 
     private void updateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_updateMouseClicked
-
+       
+        
         String roomVal = room.getText();
         String nameVal = name.getText();
         String addressVal = address.getText();
         String rentVal = rent.getText().replaceAll(",", "");
         String advanceVal = advance.getText().replaceAll(",", "");
-        String rentedVal = rented.getText();
-        String vacatedVal = vacated.getText();
+        
+        SimpleDateFormat dateFormat = new SimpleDateFormat(rented.getDateFormatString());
+        String rentedVal = dateFormat.format(rented.getDate());
+        String vacatedVal = dateFormat.format(vacated.getDate());
+        
+        
         String currRentedVal = currRented.getValue().toString();
         String agreementVal = agreement.getValue().toString();
         String duesVal = dues.getText();
@@ -609,9 +613,9 @@ public class TenantDetails extends javax.swing.JFrame {
                 name.setText("");
                 address.setText("");
                 rent.setText("");
-                dues.setText("");
-                rented.setText("");
-                vacated.setText("");
+                advance.setText("");
+                rented.setDate(new Date());
+                vacated.setDate(new Date());
                 currRented.setValue("TRUE");
                 agreement.setValue("TRUE");
                 dues.setText("");
@@ -635,8 +639,11 @@ public class TenantDetails extends javax.swing.JFrame {
         String addressVal = address.getText();
         String rentVal = rent.getText().replaceAll(",", "");
         String advanceVal = advance.getText().replaceAll(",", "");
-        String rentedVal = rented.getText();
-        String vacatedVal = vacated.getText();
+        
+        SimpleDateFormat dateFormat = new SimpleDateFormat(rented.getDateFormatString());
+        String rentedVal = dateFormat.format(rented.getDate());
+        String vacatedVal = dateFormat.format(vacated.getDate());
+        
         String currRentedVal = currRented.getValue().toString();
         String agreementVal = agreement.getValue().toString();
         String duesVal = dues.getText();
@@ -683,9 +690,9 @@ public class TenantDetails extends javax.swing.JFrame {
                 name.setText("");
                 address.setText("");
                 rent.setText("");
-                dues.setText("");
-                rented.setText("");
-                vacated.setText("");
+                advance.setText("");
+                rented.setDate(new Date());
+                vacated.setDate(new Date());
                 currRented.setValue("TRUE");
                 agreement.setValue("TRUE");
                 dues.setText("");
@@ -801,14 +808,19 @@ public class TenantDetails extends javax.swing.JFrame {
 
         DefaultTableModel model = (DefaultTableModel)tenants_table.getModel();
         int selectedIndex = tenants_table.getSelectedRow();
-
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        
         room.setText(model.getValueAt(selectedIndex, 1).toString());
         name.setText(model.getValueAt(selectedIndex, 2).toString());
         address.setText(model.getValueAt(selectedIndex, 3).toString());
         rent.setText(model.getValueAt(selectedIndex, 4).toString());
         advance.setText(model.getValueAt(selectedIndex, 5).toString());
-        rented.setText(model.getValueAt(selectedIndex, 6).toString());
-        vacated.setText(model.getValueAt(selectedIndex, 7).toString());
+        try {
+            rented.setDate(dateFormat.parse(model.getValueAt(selectedIndex, 6).toString()));
+            vacated.setDate(dateFormat.parse(model.getValueAt(selectedIndex, 7).toString()));
+        } catch (ParseException e) {
+            JOptionPane.showMessageDialog(null, e);
+        } 
         currRented.setValue(model.getValueAt(selectedIndex, 8));
         agreement.setValue(model.getValueAt(selectedIndex, 9));
         dues.setText(model.getValueAt(selectedIndex, 10).toString());
@@ -826,10 +838,6 @@ public class TenantDetails extends javax.swing.JFrame {
     private void rentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rentActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_rentActionPerformed
-
-    private void vacatedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vacatedActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_vacatedActionPerformed
 
     private void roomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roomActionPerformed
         // TODO add your handling code here:
@@ -902,13 +910,13 @@ public class TenantDetails extends javax.swing.JFrame {
     private javax.swing.JTextField notes;
     private javax.swing.JButton refresh;
     private javax.swing.JFormattedTextField rent;
-    private javax.swing.JFormattedTextField rented;
+    private com.toedter.calendar.JDateChooser rented;
     private javax.swing.JFormattedTextField room;
     private javax.swing.JToggleButton search;
     private javax.swing.JTextField searchName;
     private javax.swing.JTextField searchRoom;
     private javax.swing.JTable tenants_table;
     private javax.swing.JButton update;
-    private javax.swing.JFormattedTextField vacated;
+    private com.toedter.calendar.JDateChooser vacated;
     // End of variables declaration//GEN-END:variables
 }
